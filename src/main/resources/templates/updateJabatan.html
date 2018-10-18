@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/basepage :: basepage}">
+<head>
+    <title id="page-title" >Tambah Pegawai</title>
+</head>
+<body>
+<div id="Content" class="container-full-bg">
+    <div class="container vertical-center" style="padding-top: 32px;">
+        <h1 th:text="'Tambah Jabatan'"></h1>
+        <div class="card my-5" style="margin: 0 10rem">
+            <form th:action="@{/jabatan/ubah}" th:object="${jabatan}" th:method="POST">
+            <input type="hidden" th:field="*{id}" />
+            <div class="card-body">
+            <!-- <table class="table">
+                <tbody>-->
+                    <tr>
+                        <th scope="row">Nama</th>
+                        <td>
+							<input type="text" class="form-control" name="nama" placeholder="Ex : Kepala Dinas"/>
+						</td>
+                    </tr>
+                    <tr>
+                    <br>
+                        <th scope="row">Deskripsi</th>
+                        <td>
+							<input type="text" class="form-control" name="deskripsi" placeholder="Ex : Pemimpin Dinas"/>
+						</td>
+                    </tr>
+                    <br>
+                    <tr>
+                        <th scope="row">Gaji</th>
+                        <td>
+							<input type="number" class="form-control" name="gaji_pokok" placeholder="Ex : 5000000"/>
+						</td>
+                    </tr>
+                    <br>
+            <!-- </tbody>
+            </table> -->    
+            	<br>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

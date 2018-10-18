@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/BasePage :: basepage}">
+<head>
+    <title id="page-title">Home</title>
+</head>
+<body>
+    <div id="Content" class="container-full-bg">
+        <div class="jumbotron vertical-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h1>Sistem Informasi Kepegawaian</h1>
+                        <h3>Selamat Datang di Sistem Informasi Kepegawaian</h3>
+                    </div>
+                    <div class="col-12 my-5">
+                        <div class="card-column">
+                            <div class="card mt-3">
+                                <div class="card-body">
+                                    <h2>Lihat Data Pegawai Berdasarkan NIP</h2>
+                                    <form th:method="GET" th:action="@{/pegawai}">
+                                        <div class="form-group">
+                                            <label for="nipInput">Nomor Induk Pegawai (NIP)</label>
+                                            <input type="text" required pattern="^[0-9]+$" class="form-control" id="nipInput" name="nip" placeholder="Nomor NIP" aria-describedby="nipHelper" />
+                                            <small id="nipHelper" class="form-text text-muted">Masukan nomor Induk Pegawai (NIP)</small>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Lihat</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card mt-3">
+                                <div class="card-body">
+                                    <h2>Lihat Detail Jabatan</h2>
+                                    <form th:method="GET" th:action="@{/jabatan/view}">
+                                        <div class="form-group">
+                                            <label for="jabatanInput">Pilih Jabatan</label>
+                                            <select class="form-control custom-select" id="jabatanInput" name="idJabatan" required>
+                                                <option selected disabled>Pilih Jabatan</option>
+                                                <th:block th:each="jabatan : ${listJabatan}">
+                                                    <option th:value="${jabatan.id}" th:text="${jabatan.nama}"></option>
+                                                </th:block>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Lihat</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card mt-3">
+                                <div class="card-body">
+                                    <h2>Lihat Pegawai Tertua dan Termuda</h2>
+                                    <form th:method="GET" th:action="@{/pegawai/termuda-tertua}">
+                                        <div class="form-group">
+                                            <label for="instansiInput">Pilih Instansi</label>
+                                            <select class="form-control custom-select" id="instansiInput" name="id" required>
+                                                <option selected disabled>Pilih Instansi</option>
+                                                <th:block th:each="instansi : ${listInstansi}">
+                                                    <option th:value="${instansi.id}" th:text="${instansi.nama}+' - '+${instansi.provinsi.nama}"></option>
+                                                </th:block>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Lihat</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+<!-- 
+<div class="card-header">
+									Lihat Data Pegawai Berdasarkan NIP
+								</div>
+                                <form th:action="@{/pegawai}" method="GET">
+									<div class="card-body">
+										<label for="nip">Masukkan Nomor Induk Pegawai</label>
+										<input type="text" name="nip" class="form-control"/>
+										<p></p>
+										<button type="submit" class="btn btn-primary">Lihat</button>
+									</div>
+								</form>
+                            </div> -->

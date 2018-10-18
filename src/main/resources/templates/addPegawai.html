@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/basepage :: basepage}">
+<head>
+    <title id="page-title" >Tambah Pegawai</title>
+</head>
+<body>
+<div id="Content" class="container-full-bg">
+    <div class="container vertical-center" style="padding-top: 32px;">
+        <h1 th:text="'Tambah Jabatan'"></h1>
+        <div class="card my-5" style="margin: 0 10rem">
+            <form th:action="@{/pegawai/tambah}" th:method="POST">
+            <div class="card-body">
+            <!-- <table class="table">
+                <tbody>-->
+                    <tr>
+                        <th scope="row">Nama</th>
+                        <td>
+							<input type="text" class="form-control" name="nama" placeholder="Ex : Kepala Dinas"/>
+						</td>
+                    </tr>
+                    <tr>
+                    <br>
+                        <th scope="row">Tempat Lahir</th>
+                        <td>
+							<input type="text" class="form-control" name="tempat_lahir" placeholder="Ex : Pemimpin Dinas"/>
+						</td>
+                    </tr>
+                    <br>
+                    <tr>
+                        <th scope="row">Tanggal Lahir</th>
+                        <td>
+							<input type="date" class="form-control" name="tanggal_lahir" placeholder="Ex : 5000000"/>
+						</td>
+                    </tr>
+                    <br>
+                    <tr>
+                        <th scope="row">Tahun Masuk</th>
+                        <td>
+							<input type="number" required pattern="^[0-9]+$" class="form-control" name="tahun_masuk" placeholder="Ex : 5000000"/>
+						</td>
+                    </tr>
+                    <br>
+                    <tr>
+                        <th scope="row">Provinsi</th>
+                        <td>
+							<select id="provinsi" class="custom-select my-1 mr-sm-2">
+								<option selected hidden>Provinsi</option>
+							    <option th:each="provinsi : ${listProvinsi}" th:value="${provinsi.id}" th:text="${provinsi.nama}"></option>
+							</select>
+						</td>
+                    </tr>
+                    <br>
+                    <br>
+                    <tr>
+                        <th scope="row">Nama Instansi</th>
+                        <td>
+							<select id="instansi" th:field="*{pegawai.instansi.id}" class="custom-select my-1 mr-sm-2">
+							    <option th:each="instansi : ${listInstansi}" th:attr="data-provinsi=${instansi.provinsi.id}" th:value="${instansi.id}" th:text="${instansi.nama}"></option>
+							</select>
+						</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Jabatan</th>
+                        <td>
+							<select id="jabatan" th:field="*{pegawai.jabatanList[0].id}" class="custom-select my-1 mr-sm-2">
+							    <option th:each="jabatan : ${listJabatan}" th:value="${jabatan.id}" th:text="${jabatan.nama}"></option>
+							</select>
+						</td>
+                    </tr>
+                    <br>
+            <!-- </tbody>
+            </table> -->    
+            	<br>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+            <script type="text/javascript">
+            	window.addEventListener("load", function(){
+            		const filterInstansiOptions = function(idProvinsi){
+            			function showHide(item) {
+            				console.log(idProvinsi);
+	            			if(item.getAttribute('data-provinsi') === idProvinsi){
+	            				$(item).show();
+	            			}
+	            			else {
+	            				$(item).hide();
+	            			}
+	            		}
+            			const instansiSelect = document.getElementById("instansi");
+	            		Array.prototype.forEach.call(instansiSelect.children, showHide);
+            		};
+            		const provinceSelect = document.getElementById("provinsi");
+            		provinceSelect.addEventListener('change', ({target}) => {
+            			if(target) {
+            				filterInstansiOptions(target.value);
+            			}
+            		});
+            		
+            		filterInstansiOptions(provinceSelect.value);
+            		
+            	})
+            </script>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

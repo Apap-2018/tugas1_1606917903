@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/basepage :: basepage}">
+<head>
+    <title id="page-title"></title>
+</head>
+<body>
+<div id="Content" class="container-full-bg">
+    <div class="container vertical-center" style="padding-top: 32px;">
+        <h1 th:text="'Lihat Detail Jabatan - ' + ${jabatan.getNama()}"></h1>
+        <div class="card my-5">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th scope="row">Nama</th>
+                        <td th:text="${jabatan.getNama()}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Deskripsi</th>
+                        <td th:text="${jabatan.getDeskripsi()}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Gaji Pokok</th>
+                        <td th:text="'Rp' + ${#numbers.formatInteger(jabatan.getGaji_pokok(), 0)}"></td>
+                   	</tr>
+                </tbody>
+            </table>
+            <div class="card-body">
+            	<td>
+            		<a th:href="@{/jabatan/ubah}+'?idJabatan='+${jabatan.getId()}" class="btn btn-primary">Ubah</a>
+                </td>
+                <td>
+                	<form th:action="@{/jabatan/hapus}" th:object="${jabatan}"  method="POST">
+                		<input  type="hidden" th:field="*{id}"></input>
+                		<button type="submit" class="btn btn-primary">Hapus</button>
+                	</form>
+                </td>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
