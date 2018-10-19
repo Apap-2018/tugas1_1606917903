@@ -1,5 +1,6 @@
 package com.apap.tugas1.service;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class PegawaiServiceImpl implements PegawaiService{
 	
 	@Override
 	public void addPegawai(PegawaiModel pegawai) {
-		PegawaiModel pegawaiBaru = new PegawaiModel();
+		/**PegawaiModel pegawaiBaru = new PegawaiModel();
 		InstansiModel instansi = instansiService.findInstansiById(pegawai.getInstansi().getId());
 		pegawaiBaru.setInstansi(instansi);
 		pegawaiBaru.setNama(pegawai.getNama());
@@ -43,8 +44,23 @@ public class PegawaiServiceImpl implements PegawaiService{
 		pegawaiBaru.setJabatanList(lst);
 		for(JabatanModel jabatan : pegawai.getJabatanList()) {
 			lst.add(jabatanService.findJabatanById(jabatan.getId()));
-		}
-		PegawaiDb.save(pegawaiBaru);
+		}**/
+		PegawaiDb.save(pegawai);
+	}
+	
+	@Override
+	public void updatePegawai(PegawaiModel pegawai) {
+		// TODO Auto-generated method stub
+		PegawaiModel archive = this.getPegawaiById(pegawai.getId());
+		archive.setInstansi(pegawai.getInstansi());
+		archive.setJabatanList(pegawai.getJabatanList());
+		archive.setNama(pegawai.getNama());
+		archive.setTahunMasuk(pegawai.getTahunMasuk());
+		archive.setTanggalLahir(pegawai.getTanggalLahir());
+		archive.setTempatLahir(pegawai.getTempatLahir());
+		archive.setNip(pegawai.getNip());
+		archive.setId(pegawai.getId());
+		PegawaiDb.save(archive);
 	}
 
 	@Override
@@ -61,5 +77,19 @@ public class PegawaiServiceImpl implements PegawaiService{
 	@Override
 	public List<PegawaiModel> listPegawai() {
 		return PegawaiDb.findAll();
+	}
+	@Override
+	public PegawaiModel getPegawaiTuaInstansi(InstansiModel instansi) {
+		return PegawaiDb.findFirstByInstansiOrderByTanggalLahirAsc(instansi);
+	}
+
+	@Override
+	public PegawaiModel getPegawaiMudaInstansi(InstansiModel instansi) {
+		return PegawaiDb.findFirstByInstansiOrderByTanggalLahirDesc(instansi);
+	}
+
+	@Override
+	public PegawaiModel getPegawaiById(long id) {
+		return PegawaiDb.findById(id);
 	}
 }

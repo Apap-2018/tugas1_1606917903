@@ -7,8 +7,8 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
+import java.sql.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,6 +27,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -35,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "pegawai")
-public class PegawaiModel implements Serializable, Comparable<PegawaiModel>{
+public class PegawaiModel implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -53,16 +55,16 @@ public class PegawaiModel implements Serializable, Comparable<PegawaiModel>{
 	@NotNull
 	@Size(max = 255)
 	@Column(name = "tempat_lahir", nullable = false)
-	private String tempat_lahir;
+	private String tempatLahir;
 	
 	@NotNull
 	@Column(name = "tanggal_lahir", nullable = false)
-	private Date tanggal_lahir;
+	private Date tanggalLahir;
 	
 	@NotNull
 	@Size(max = 255)
 	@Column(name = "tahun_masuk", nullable = false)
-	private String tahun_masuk;
+	private String tahunMasuk;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_instansi", referencedColumnName = "id", nullable = false)
@@ -87,7 +89,6 @@ public class PegawaiModel implements Serializable, Comparable<PegawaiModel>{
 		this.id = id;
 	}
 
-
 	public String getNip() {
 		return nip;
 	}
@@ -104,28 +105,28 @@ public class PegawaiModel implements Serializable, Comparable<PegawaiModel>{
 		this.nama = nama;
 	}
 
-	public String getTempat_lahir() {
-		return tempat_lahir;
+	public String getTempatLahir() {
+		return tempatLahir;
 	}
 
-	public void setTempat_lahir(String tempat_lahir) {
-		this.tempat_lahir = tempat_lahir;
+	public void setTempatLahir(String tempatLahir) {
+		this.tempatLahir = tempatLahir;
 	}
 
-	public Date getTanggal_lahir() {
-		return tanggal_lahir;
+	public Date getTanggalLahir() {
+		return tanggalLahir;
 	}
 
-	public void setTanggal_lahir(Date tanggal_lahir) {
-		this.tanggal_lahir = tanggal_lahir;
+	public void setTanggalLahir(Date tanggalLahir) {
+		this.tanggalLahir = tanggalLahir;
 	}
 
-	public String getTahun_masuk() {
-		return tahun_masuk;
+	public String getTahunMasuk() {
+		return tahunMasuk;
 	}
 
-	public void setTahun_masuk(String tahun_masuk) {
-		this.tahun_masuk = tahun_masuk;
+	public void setTahunMasuk(String tahunMasuk) {
+		this.tahunMasuk = tahunMasuk;
 	}
 
 	public InstansiModel getInstansi() {
@@ -135,7 +136,7 @@ public class PegawaiModel implements Serializable, Comparable<PegawaiModel>{
 	public void setInstansi(InstansiModel instansi) {
 		this.instansi = instansi;
 	}
-	
+
 	public List<JabatanModel> getJabatanList() {
 		return jabatanList;
 	}
@@ -153,20 +154,5 @@ public class PegawaiModel implements Serializable, Comparable<PegawaiModel>{
 			}
 		}
 		return pokok + (this.getInstansi().getProvinsi().getPresentase_tunjangan()/100 * pokok);
-	}
-	
-	public int getUmur() {
-		  Date now = new Date();
-		  DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-		  int d1 = Integer.parseInt(formatter.format(tanggal_lahir));
-		  int d2 = Integer.parseInt(formatter.format(now));
-		  int age = (d2 - d1) / 10000;   
-		  return age;
-	}
-
-	@Override
-	public int compareTo(PegawaiModel other) {
-		int otherPegawai = other.getUmur();
-		return this.getUmur() - otherPegawai;
 	}
 }

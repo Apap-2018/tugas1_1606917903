@@ -42,7 +42,7 @@ public class JabatanModel implements Serializable{
 	
 	@NotNull
 	@Column(name = "gaji_pokok", nullable = false)
-	private double gaji_pokok;
+	private double gajiPokok;
 	
 
 	@ManyToMany(fetch = FetchType.LAZY,
@@ -88,11 +88,11 @@ public class JabatanModel implements Serializable{
 	}
 
 	public double getGaji_pokok() {
-		return gaji_pokok;
+		return gajiPokok;
 	}
 
 	public void setGaji_pokok(double gaji_pokok) {
-		this.gaji_pokok = gaji_pokok;
+		this.gajiPokok = gaji_pokok;
 	}
 	
 }

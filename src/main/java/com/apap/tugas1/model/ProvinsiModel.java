@@ -29,7 +29,7 @@ public class ProvinsiModel implements Serializable{
 	
 	@NotNull
 	@Column(name = "presentase_tunjangan", nullable = false)
-	private double presentase_tunjangan;
+	private double presentaseTunjangan;
 	
 	public long getId() {
 		return id;
@@ -48,11 +48,11 @@ public class ProvinsiModel implements Serializable{
 	}
 
 	public double getPresentase_tunjangan() {
-		return presentase_tunjangan;
+		return presentaseTunjangan;
 	}
 
 	public void setPresentase_tunjangan(double presentase_tunjangan) {
-		this.presentase_tunjangan = presentase_tunjangan;
+		this.presentaseTunjangan = presentase_tunjangan;
 	}
 
 }

@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/BasePage :: basepage}">
 <head>
-    <title id="page-title" th:text="'Detail Pegawai - ' + ${pegawai.getNama()}"></title>
+    <title id="page-title"></title>
 </head>
 <body>
 <div id="Content" class="container-full-bg">
     <div class="container vertical-center" style="padding-top: 32px;">
-        <h1 th:text="'Tambah Pegawai'"></h1>
+        <h1 th:text="'Ubah Pegawai'"></h1>
         <div class="card my-5">
         	<div class="container">
-        		<form th:action="@{/pegawai/tambah}" th:object="${pegawai}" method="POST" style="padding-top:15px">
+        		<form th:action="@{/pegawai/ubah}" th:object="${pegawai}" method="POST" style="padding-top:15px">
+            	<input type="hidden" th:field="*{id}">
             	<div class="form-group">
             		<label for="nama">Nama :</label>
             		<input type="text" name="nama" th:field="*{nama}" class="form-control">
@@ -29,7 +30,9 @@
             	<div class="form-group">
             		<label for="provinsi">Provinsi :</label>
             		<select class="form-control" id="provinsi">
-            		  <option disabled="disabled" selected="selected" >Pilih Provinsi</option>
+            		  <option selected="selected" 
+            		  		  th:value="${pegawai.instansi.provinsi.getId()}" 
+					          th:text="${pegawai.instansi.provinsi.getNama()}"></option>
 					  <option th:each="prov : ${listOfProvinsi}" 
 					          th:value="${prov.getId()}" 
 					          th:text="${prov.getNama()}"></option>
@@ -37,9 +40,9 @@
             	</div>
             	<div class="form-group">
             		<label for="instansi">Instansi :</label>
-            		<select class="form-control" id="instansi" name="instansi">
-					  <option disabled="disabled" selected="selected" >Pilih Instansi</option>
-					</select>
+            		<select th:field="*{instansi}" id="instansi" class="form-control"/>
+			 			<option  th:value="*{instansi.id}" selected="selected" th:text="*{instansi.nama}"></option>
+			 		</select>
             	</div>
             	
             	<div class="form-group">

@@ -3,6 +3,7 @@ package com.apap.tugas1.service;
 import java.util.List;
 
 import com.apap.tugas1.model.InstansiModel;
+import com.apap.tugas1.model.ProvinsiModel;
 
 /**
  * InstansiService
@@ -14,4 +15,5 @@ public interface InstansiService {
 	void deleteInstansi(InstansiModel instansi);
 	InstansiModel findInstansiById(long id);
 	List<InstansiModel> listInstansi();
+	List<InstansiModel> findInstansiByProvinsi(ProvinsiModel provinsi);
 }

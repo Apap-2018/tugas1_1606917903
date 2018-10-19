@@ -22,9 +22,14 @@
                         <th scope="row">Gaji Pokok</th>
                         <td th:text="'Rp' + ${#numbers.formatInteger(jabatan.getGaji_pokok(), 0)}"></td>
                    	</tr>
+                   	<tr>
+                        <th scope="row">Jumlah Pegawai</th>
+                        <td th:text="${jumPegawai}"></td>
+                   	</tr>
                 </tbody>
             </table>
             <div class="card-body">
+            <table>
             	<td>
             		<a th:href="@{/jabatan/ubah}+'?idJabatan='+${jabatan.getId()}" class="btn btn-primary">Ubah</a>
                 </td>
@@ -34,6 +39,7 @@
                 		<button type="submit" class="btn btn-primary">Hapus</button>
                 	</form>
                 </td>
+            </table>
             </div>
         </div>
     </div>

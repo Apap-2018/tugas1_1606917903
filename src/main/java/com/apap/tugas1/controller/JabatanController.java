@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apap.tugas1.model.JabatanModel;
 import com.apap.tugas1.model.PegawaiModel;
@@ -43,6 +44,8 @@ public class JabatanController {
 	@RequestMapping(value = "/jabatan/view", method = RequestMethod.GET)
 	private String viewJabatan(@RequestParam("idJabatan") long id, Model model) {
 		JabatanModel archive = jabatanService.findJabatanById(id);
+		int jumPegawai = archive.getPegawaiList().size();
+		model.addAttribute("jumPegawai", jumPegawai);
 		model.addAttribute("jabatan", archive);
 		return "view-jabatan";
 	}
@@ -75,5 +78,17 @@ public class JabatanController {
 		}
 		model.addAttribute("msg", "Jabatan tidak dapat dihapus");
 		return "error-page";
+	}
+	
+	@RequestMapping(value = "/jabatan/viewall/list",method = RequestMethod.GET)
+	public @ResponseBody List<JabatanModel> listJabatan() {
+		return jabatanService.listJabatan();
+	}
+	
+	@RequestMapping(value = "/jabatan/viewall")
+	private String viewAllJabatan(Model model) {
+		List<JabatanModel> allJabatan = jabatanService.listJabatan();
+		model.addAttribute("allJabatan",allJabatan);
+		return "ViewAllJabatan.html";
 	}
 }

@@ -2,6 +2,7 @@ package com.apap.tugas1.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,5 +36,10 @@ public class ProvinsiServiceImpl implements ProvinsiService{
 	@Override
 	public List<ProvinsiModel> listProvinsi() {
 		return ProvinsiDb.findAll();
+	}
+
+	@Override
+	public ProvinsiModel getProvinsiDetailById(long id) {
+		return ProvinsiDb.findById(id);
 	}
 }

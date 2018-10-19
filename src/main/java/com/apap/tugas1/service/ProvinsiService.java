@@ -13,4 +13,5 @@ public interface ProvinsiService {
 	void addProvinsi(ProvinsiModel provinsi);
 	void deleteProvinsi(ProvinsiModel provinsi);
 	List<ProvinsiModel> listProvinsi();
+	ProvinsiModel getProvinsiDetailById(long id);
 }

@@ -1,6 +1,5 @@
 package com.apap.tugas1.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.apap.tugas1.model.InstansiModel;
+import com.apap.tugas1.model.ProvinsiModel;
 import com.apap.tugas1.repository.InstansiDB;
 
 /**
@@ -41,5 +41,10 @@ public class InstansiServiceImpl implements InstansiService{
 	@Override
 	public InstansiModel findInstansiById(long id) {
 		return instansiDb.findById(id);
+	}
+	
+	@Override
+	public List<InstansiModel> findInstansiByProvinsi(ProvinsiModel provinsi) {
+		return instansiDb.findByProvinsi(provinsi);
 	}
 }

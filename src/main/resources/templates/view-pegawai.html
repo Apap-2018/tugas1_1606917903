@@ -20,15 +20,15 @@
                     </tr>
                     <tr>
                         <th scope="row">Tempat Lahir</th>
-                        <td th:text="${pegawai.getTempat_lahir()}"></td>
+                        <td th:text="${pegawai.getTempatLahir()}"></td>
                     </tr>
                     <tr>
                         <th scope="row">Tanggal Lahir</th>
-                        <td th:text="${pegawai.getTanggal_lahir()}"></td>
+                        <td th:text="${pegawai.getTanggalLahir()}"></td>
                     </tr>
                     <tr>
                         <th scope="row">Tahun Masuk</th>
-                        <td th:text="${pegawai.getTahun_masuk()}"></td>
+                        <td th:text="${pegawai.getTahunMasuk()}"></td>
                     </tr>
                     <tr>
                         <th scope="row">Nama Instansi</th>
@@ -46,12 +46,14 @@
                     </tr>
                     <tr>
                         <th scope="row">Gaji</th>
-                        <td th:text="'Rp' + ${#numbers.formatInteger(gaji, 0)}"></td>
+                        <td th:text="'Rp' + ${#numbers.formatInteger(pegawai.getGaji(), 0)}"></td>
                     </tr>
                 </tbody>
             </table>
             <div class="card-body">
-                <a th:href="@{/}" class="btn btn-primary">Ubah</a>
+                <td>
+            		<a th:href="@{/pegawai/ubah}+'?nip='+${pegawai.getNip()}" class="btn btn-primary">Ubah</a>
+                </td>
             </div>
         </div>
     </div>

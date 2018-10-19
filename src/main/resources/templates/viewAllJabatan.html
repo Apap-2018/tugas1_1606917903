@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/BasePage :: basepage}">
+<head>
+    <title id="page-title" th:text="'Detail Pegawai - ' + ${pegawai.getNama()}"></title>
+</head>
+<body>
+<div id="Content" class="container-full-bg">
+    <div class="container vertical-center" style="padding-top: 32px;">
+        <h1>Lihat Semua Jabatan</h1>
+        <div class="table-responsive table">
+        	<table class="table table-hover" id="myTable">
+        		<thead>
+        			<th>Nama</th>
+        			<th>Deskripsi</th>
+        			<th>Gaji Pokok</th>
+        		</thead>
+        		<tbody>
+     			<tr  th:each  = "jabatan : ${allJabatan}" >
+     				<td th:text="${jabatan.nama}"></td>
+     				<td th:text="${jabatan.deskripsi}"></td>
+     				<td th:text="'Rp' + ${#numbers.formatInteger(jabatan.getGaji_pokok(), 0)}"></td>
+     			</tr>
+     		</tbody>
+        	</table>
+        </div>
+    </div>
+    <script type="text/javascript">
+    	$(document).ready(function(e){
+    		$(myTable).DataTable()
+    	});
+    </script>
+</div>
+</body>
+</html>
