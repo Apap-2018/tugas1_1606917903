@@ -14,6 +14,6 @@ public interface InstansiService {
 	void addInstansi(InstansiModel instansi);
 	void deleteInstansi(InstansiModel instansi);
 	InstansiModel findInstansiById(long id);
-	List<InstansiModel> listInstansi();
+	List<InstansiModel> getListInstansi();
 	List<InstansiModel> findInstansiByProvinsi(ProvinsiModel provinsi);
 }

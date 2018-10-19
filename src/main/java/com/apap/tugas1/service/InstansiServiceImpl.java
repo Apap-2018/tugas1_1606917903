@@ -33,7 +33,7 @@ public class InstansiServiceImpl implements InstansiService{
 	}
 
 	@Override
-	public List<InstansiModel> listInstansi() {
+	public List<InstansiModel> getListInstansi() {
 		// TODO Auto-generated method stub
 		return instansiDb.findAll();
 	}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/BasePage :: basepage}">
+<head>
+    <title id="page-title">Tambah Pegawai</title>
+</head>
+<body>
+<div id="Content" class="container-full-bg">
+    <div class="container vertical-center" style="padding-top: 32px;">
+        <h1 th:text="'Cari Pegawai'"></h1>
+        <div class="card my-5">
+        	<div class="container">
+        		<form th:action="@{/pegawai/cari}" method="GET" style="padding-top:15px">
+            	<div class="form-group">
+            		<label for="provinsi">Provinsi :</label>
+            		<select class="form-control" id="provinsi" name="provinsiId">
+            		  <option disabled="disabled" selected="selected" >Pilih Provinsi</option>
+					  <option th:each="prov : ${listOfProvinsi}" 
+					          th:value="${prov.getId()}" 
+					          th:text="${prov.getNama()}"></option>
+					</select>
+            	</div>
+            	<div class="form-group">
+            		<label for="instansi">Instansi :</label>
+            		<select class="form-control" id="instansi" name="instansiId">
+					  <option disabled="disabled" selected="selected" >Pilih Instansi</option>
+					  <option th:each="instansi : ${listOfInstansi}" 
+					          th:value="${instansi.getId()}" 
+					          th:text="${instansi.getNama()}"></option>
+					</select>
+            	</div>
+            	<div class="form-group">
+            		<label for="jabatan">Jabatan :</label>
+            		<select class="form-control" id="jabatan" name="jabatanId">
+					  <option disabled="disabled" selected="selected" >Pilih Jabatan</option>
+					  <option th:each="jabatan : ${listOfJabatan}" 
+					          th:value="${jabatan.getId()}" 
+					          th:text="${jabatan.getNama()}"></option>
+					</select>
+            	</div>
+            	<div class="card-body">
+                	<input type="submit" name="submit" class="btn btn-primary"  value="Tambah">
+            	</div>
+            </form>
+        	</div>
+        </div>
+        <div class="table-responsive table">
+        	<table class="table table-hover" id="myTable">
+        		<thead>
+        			<th>NIP</th>
+        			<th>Nama</th>
+        			<th>Tempat Lahir</th>
+        			<th>Tanggal Lahir</th>
+        			<th>Tahun Masuk</th>
+        		</thead>
+        		<tbody>
+     			<tr  th:each  = "pegawai : ${allPegawai}" >
+                    <td th:text="${pegawai.getNip()}"></td>
+                    <td th:text="${pegawai.getNama()}"></td>
+                    <td th:text="${pegawai.getTempatLahir()}"></td>
+                    <td th:text="${pegawai.getTanggalLahir()}"></td>
+                    <td th:text="${pegawai.getTahunMasuk()}"></td>
+     			</tr>
+     		</tbody>
+        	</table>
+        </div>
+    </div>
+    <script type="text/javascript">
+    	$(document).ready(function(e){
+    		$(myTable).DataTable()
+    	});
+    	
+    	$(document).ready(function(e){
+    		var provinsi = $('#provinsi').val();
+    		var instansi = $('instansi').val();
+    		var jabatan = $('#jabatan').val();	
+    		
+    	});
+    </script>
+</div>
+</body>
+
+</html>
