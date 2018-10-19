@@ -20,8 +20,7 @@
                                     <form th:method="GET" th:action="@{/pegawai}">
                                         <div class="form-group">
                                             <label for="nipInput">Nomor Induk Pegawai (NIP)</label>
-                                            <input type="text" required pattern="^[0-9]+$" class="form-control" id="nipInput" name="nip" placeholder="Nomor NIP" aria-describedby="nipHelper" />
-                                            <small id="nipHelper" class="form-text text-muted">Masukan nomor Induk Pegawai (NIP)</small>
+                                            <input type="number" required pattern="^[0-9]+$" class="form-control" id="nipInput" name="nip" placeholder="Nomor NIP" aria-describedby="nipHelper" />
                                         </div>
                                         <button type="submit" class="btn btn-primary">Lihat</button>
                                     </form>

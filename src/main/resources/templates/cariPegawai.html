@@ -9,7 +9,7 @@
         <h1 th:text="'Cari Pegawai'"></h1>
         <div class="card my-5">
         	<div class="container">
-        		<form th:action="@{/pegawai/cari}" method="GET" style="padding-top:15px">
+        		<form th:action="@{/pegawai/cari}" id="form-submit" method="GET" style="padding-top:15px">
             	<div class="form-group">
             		<label for="provinsi">Provinsi :</label>
             		<select class="form-control" id="provinsi" name="provinsiId">
@@ -38,7 +38,7 @@
 					</select>
             	</div>
             	<div class="card-body">
-                	<input type="submit" name="submit" class="btn btn-primary"  value="Tambah">
+                	<input type="submit" id="submit" name="submit" class="btn btn-primary"  value="Tambah">
             	</div>
             </form>
         	</div>
@@ -70,10 +70,31 @@
     	});
     	
     	$(document).ready(function(e){
-    		var provinsi = $('#provinsi').val();
-    		var instansi = $('instansi').val();
-    		var jabatan = $('#jabatan').val();	
+    		var provinsi = $('#provinsi option:selected').val();
+    		var instansi = $('#instansi option:selected').val();
+    		var jabatan = $('#jabatan option:selected').val();	
     		
+    		$("#provinsi").change(function(){
+    			provinsi = $('#provinsi option:selected').val();
+    			console.log(provinsi);
+    		});
+    		
+			$("#instansi").change(function(){
+				instansi = $('#instansi option:selected').val();
+				console.log(instansi);
+			});
+			$("#jabatan").change(function(){
+				jabatan = $('#jabatan option:selected').val();
+				console.log(jabatan);
+			});
+			
+			$("#submit").on("click", function(e){
+			    e.preventDefault();
+			    var url = "localhost:8080/pegawai/cari?provinsiId="+provinsi+"&instansiId="+instansi+"&jabatanId="+jabatan;
+				//window.location.replace(url);
+				console.log(url);
+			   $('#form-submit').attr('action', url).submit();
+			});
     	});
     </script>
 </div>
