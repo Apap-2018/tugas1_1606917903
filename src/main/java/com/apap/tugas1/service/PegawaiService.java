@@ -2,8 +2,12 @@ package com.apap.tugas1.service;
 
 import java.util.List;
 
+import org.springframework.lang.Nullable;
+
 import com.apap.tugas1.model.InstansiModel;
+import com.apap.tugas1.model.JabatanModel;
 import com.apap.tugas1.model.PegawaiModel;
+import com.apap.tugas1.model.ProvinsiModel;
 
 /**
  * PegawaiService
@@ -13,10 +17,12 @@ import com.apap.tugas1.model.PegawaiModel;
 public interface PegawaiService {
 	void addPegawai(PegawaiModel Pegawai);
 	void deletePegawai(PegawaiModel Pegawai);
-	List<PegawaiModel> listPegawai();
+	void updatePegawai(PegawaiModel Pegawai);
+	List<PegawaiModel> getListPegawai();
 	PegawaiModel getPegawaiByNIP(String nip);
 	PegawaiModel getPegawaiById(long id);
 	PegawaiModel getPegawaiTuaInstansi(InstansiModel instansi);
 	PegawaiModel getPegawaiMudaInstansi(InstansiModel instansi);
-	void updatePegawai(PegawaiModel Pegawai);
+	List<PegawaiModel> filterPegawai(@Nullable ProvinsiModel provinsi, @Nullable InstansiModel instansi, @Nullable JabatanModel jabatan);
+	List<PegawaiModel> filterByInstansi(InstansiModel instansi, List<PegawaiModel> listPegawai);
 }

@@ -32,12 +32,14 @@ public class JabatanController {
 	@RequestMapping(value="/jabatan/tambah", method = RequestMethod.GET)
 	private String add(Model model) {
 		model.addAttribute("jabatan", new JabatanModel());
+		model.addAttribute("title", "Tambah Jabatan");
 		return "addJabatan";
 	}
 	@RequestMapping(value = "/jabatan/tambah", method = RequestMethod.POST)
 	private String addSubmit(@ModelAttribute JabatanModel jabatan, Model model) {
 		jabatanService.addJabatan(jabatan);
 		model.addAttribute("msg", "Jabatan "+jabatan.getNama()+" berhasil ditambahkan");
+		model.addAttribute("title", "Sukses!");
 		return "success-page";
 	}
 	
@@ -47,16 +49,18 @@ public class JabatanController {
 		int jumPegawai = archive.getPegawaiList().size();
 		model.addAttribute("jumPegawai", jumPegawai);
 		model.addAttribute("jabatan", archive);
+		model.addAttribute("title", "Detail Jabatan");
 		return "view-jabatan";
 	}
 	
 	@RequestMapping(value = "/jabatan/ubah", method = RequestMethod.GET)
 	private String updateJabatan(@RequestParam(value="idJabatan") long id, Model model) {
 		JabatanModel archive = jabatanService.findJabatanById(id);
-		JabatanModel jabatan = new JabatanModel();
-		jabatan.setId(archive.getId());
-		model.addAttribute("jabatan", jabatan);
+		///JabatanModel jabatan = new JabatanModel();
+		//jabatan.setId(archive.getId());
+		model.addAttribute("jabatan", archive);
 		model.addAttribute("archive", archive);
+		model.addAttribute("title", "Ubah Jabatan");
 		return "updateJabatan";
 	}
 	
@@ -64,6 +68,7 @@ public class JabatanController {
 	private String updateJabatanSubmit(@ModelAttribute JabatanModel jabatan, Model model) {
 		jabatanService.updateJabatan(jabatan);
 		model.addAttribute("msg", "Jabatan berhasil diubah");
+		model.addAttribute("title", "Sukses!");
 		return "success-page";
 	}
 	
@@ -74,21 +79,24 @@ public class JabatanController {
 		if(archive.getPegawaiList().isEmpty()) {
 			jabatanService.deleteJabatan(archive);
 			model.addAttribute("msg", "Jabatan berhasil dihapus");
+			model.addAttribute("title", "Sukses!");
 			return "success-page";
 		}
 		model.addAttribute("msg", "Jabatan tidak dapat dihapus");
+		model.addAttribute("title", "Gagal!");
 		return "error-page";
 	}
 	
 	@RequestMapping(value = "/jabatan/viewall/list",method = RequestMethod.GET)
 	public @ResponseBody List<JabatanModel> listJabatan() {
-		return jabatanService.listJabatan();
+		return jabatanService.getlistJabatan();
 	}
 	
 	@RequestMapping(value = "/jabatan/viewall")
 	private String viewAllJabatan(Model model) {
-		List<JabatanModel> allJabatan = jabatanService.listJabatan();
+		List<JabatanModel> allJabatan = jabatanService.getlistJabatan();
 		model.addAttribute("allJabatan",allJabatan);
+		model.addAttribute("title", "List Jabatan");
 		return "ViewAllJabatan.html";
 	}
 }

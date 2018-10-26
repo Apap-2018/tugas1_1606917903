@@ -12,6 +12,6 @@ import com.apap.tugas1.model.ProvinsiModel;
 public interface ProvinsiService {
 	void addProvinsi(ProvinsiModel provinsi);
 	void deleteProvinsi(ProvinsiModel provinsi);
-	List<ProvinsiModel> listProvinsi();
-	ProvinsiModel getProvinsiDetailById(long id);
+	List<ProvinsiModel> getlistProvinsi();
+	ProvinsiModel findProvinsiById(long id);
 }

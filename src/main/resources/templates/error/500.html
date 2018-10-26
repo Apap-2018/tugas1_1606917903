@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/BasePage :: basepage}">
 <head>
-    <title id="page-title">500 Not Found</title>
+    <title id="page-title">500 Internal Server Error</title>
 </head>
 <body>
     <div id="Content" class="container-full-bg">
-    	<div class="jumbotron vertical-center">
-       		<h2>Internal Server Error</h2>
+        <div class="jumbotron vertical-center" style="margin-bottom:0px;background-color:red;">
+            <div class="container">
+            	<h1><b>Oops!</b></h1>
+       			<h2>Internal Server Error</h2>
+       		</div>
        	</div>
     </div>
 </body>

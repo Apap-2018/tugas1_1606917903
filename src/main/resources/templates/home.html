@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/BasePage :: basepage}">
 <head>
-    <title id="page-title">Home</title>
+    <object th:include="components/BasePage :: title" th:remove="tag"></object>
 </head>
 <body>
     <div id="Content" class="container-full-bg">
-        <div class="jumbotron vertical-center">
+        <div class="jumbotron vertical-center" style="margin-bottom:0px;">
             <div class="container">
                 <div class="row">
                     <div class="col-12">

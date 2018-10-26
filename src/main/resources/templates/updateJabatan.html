@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/basepage :: basepage}">
 <head>
-    <title id="page-title" >Update Jabatan</title>
+    <object th:include="components/BasePage :: title" th:remove="tag"></object>
 </head>
 <body>
 <div id="Content" class="container-full-bg">
     <div class="container vertical-center" style="padding-top: 32px;">
-        <h1 th:text="'Tambah Jabatan'"></h1>
+        <h1 th:text="'Ubah Jabatan'"></h1>
         <div class="card my-5" style="margin: 0 10rem">
             <form th:action="@{/jabatan/ubah}" th:object="${jabatan}" th:method="POST">
             <input type="hidden" th:field="*{id}" />
@@ -16,7 +16,7 @@
                     <tr>
                         <th scope="row">Nama</th>
                         <td>
-							<input type="text" class="form-control" name="nama" placeholder="Ex : Kepala Dinas"/>
+							<input type="text" class="form-control" name="nama" th:field="*{nama}" placeholder="Ex : Kepala Dinas"/>
 						</td>
                     </tr>
                     <tr>

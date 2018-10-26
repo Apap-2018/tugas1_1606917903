@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/BasePage :: basepage}">
 <head>
-    <title id="page-title">Tambah Pegawai</title>
+    <object th:include="components/BasePage :: title" th:remove="tag"></object>
 </head>
 <body>
 <div id="Content" class="container-full-bg">
@@ -44,7 +44,7 @@
             	
             	<div class="form-group">
             		<label for="jabatan">Jabatan:</label>
-            		<div th:each="jabatan,iterationStats : *{jabatanList}" style="padding:10px">
+            		<div th:each="jabatan,iterationStats : *{jabatanList}" style="padding:0px 0px 10px 0px">
             			<select class="form-control" th:field="*{jabatanList[__${iterationStats.index}__]}" >
 					  		<option th:each="jabatannya : ${jabatanList}" th:value="${jabatannya.id}" th:text="${jabatannya.nama}" ></option>
 						</select>

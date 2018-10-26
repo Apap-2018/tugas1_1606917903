@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.apap.tugas1.model.InstansiModel;
 import com.apap.tugas1.model.JabatanModel;
 import com.apap.tugas1.model.PegawaiModel;
+import com.apap.tugas1.model.ProvinsiModel;
 import com.apap.tugas1.repository.PegawaiDB;
 
 /**
@@ -75,7 +76,7 @@ public class PegawaiServiceImpl implements PegawaiService{
 	}
 
 	@Override
-	public List<PegawaiModel> listPegawai() {
+	public List<PegawaiModel> getListPegawai() {
 		return PegawaiDb.findAll();
 	}
 	@Override
@@ -92,4 +93,46 @@ public class PegawaiServiceImpl implements PegawaiService{
 	public PegawaiModel getPegawaiById(long id) {
 		return PegawaiDb.findById(id);
 	}
+
+	@Override
+	public List<PegawaiModel> filterPegawai(ProvinsiModel provinsi, InstansiModel instansi, JabatanModel jabatan) {
+		List<PegawaiModel> result = new ArrayList<>();
+		List<PegawaiModel> temp = new ArrayList<>();
+		
+		if(jabatan != null) {
+			temp = jabatan.getPegawaiList();
+		}
+		else {
+			temp = this.getListPegawai();
+		}
+		
+		if(provinsi != null) {
+			if(instansi != null) {
+				result = this.filterByInstansi(instansi, temp);
+			}
+			else {
+				List<InstansiModel> listInstansi = instansiService.findInstansiByProvinsi(provinsi);
+				for(InstansiModel ins : listInstansi) {
+					result.addAll(this.filterByInstansi(ins, temp));
+					
+				}
+			}
+		}
+		else {
+			if(instansi != null) {
+				result = this.filterByInstansi(instansi, temp);
+			}
+		}
+		return result;
+	}
+	
+	public List<PegawaiModel> filterByInstansi (InstansiModel instansi, List<PegawaiModel> listPegawai){
+		List<PegawaiModel> result = new ArrayList<PegawaiModel>();
+		for (PegawaiModel pegawai : listPegawai) {
+			if (pegawai.getInstansi().getId() == instansi.getId())
+				result.add(pegawai);
+		}
+		return result;
+	}
+
 }

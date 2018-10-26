@@ -1,103 +1,127 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/BasePage :: basepage}">
 <head>
-    <title id="page-title">Tambah Pegawai</title>
+	<object th:include="components/BasePage :: title" th:remove="tag"></object>
 </head>
 <body>
 <div id="Content" class="container-full-bg">
     <div class="container vertical-center" style="padding-top: 32px;">
-        <h1 th:text="'Cari Pegawai'"></h1>
-        <div class="card my-5">
-        	<div class="container">
-        		<form th:action="@{/pegawai/cari}" id="form-submit" method="GET" style="padding-top:15px">
-            	<div class="form-group">
-            		<label for="provinsi">Provinsi :</label>
-            		<select class="form-control" id="provinsi" name="provinsiId">
-            		  <option disabled="disabled" selected="selected" >Pilih Provinsi</option>
-					  <option th:each="prov : ${listOfProvinsi}" 
-					          th:value="${prov.getId()}" 
-					          th:text="${prov.getNama()}"></option>
-					</select>
-            	</div>
-            	<div class="form-group">
-            		<label for="instansi">Instansi :</label>
-            		<select class="form-control" id="instansi" name="instansiId">
-					  <option disabled="disabled" selected="selected" >Pilih Instansi</option>
-					  <option th:each="instansi : ${listOfInstansi}" 
-					          th:value="${instansi.getId()}" 
-					          th:text="${instansi.getNama()}"></option>
-					</select>
-            	</div>
-            	<div class="form-group">
-            		<label for="jabatan">Jabatan :</label>
-            		<select class="form-control" id="jabatan" name="jabatanId">
-					  <option disabled="disabled" selected="selected" >Pilih Jabatan</option>
-					  <option th:each="jabatan : ${listOfJabatan}" 
-					          th:value="${jabatan.getId()}" 
-					          th:text="${jabatan.getNama()}"></option>
-					</select>
-            	</div>
-            	<div class="card-body">
-                	<input type="submit" id="submit" name="submit" class="btn btn-primary"  value="Tambah">
-            	</div>
-            </form>
-        	</div>
-        </div>
-        <div class="table-responsive table">
+        	<h2 th:text="'Cari Pegawai'"></h2>
+		<form th:action="@{/pegawai/cari}" th:object="${pegawai}" method="GET">
+			
+			<table class="table">
+				<tbody>
+					<tr>
+						<td th:text="'Provinsi'"></td>
+				 		<td>
+			 				<select class="form-control" name="provinsiId" id="provinsi"/>
+			 					<option disabled="disabled" selected="selected" >Pilih Provinsi</option>
+								<option th:each="provinsi : ${allProvinsi}"
+								th:value="${provinsi.id}"
+								th:text="${provinsi.nama}"></option>
+			 				</select>
+				 		</td>
+					</tr>
+					<tr>
+						<td th:text="'Nama Instansi'"></td>
+						<td>
+							<select class="form-control" name="instansiId" id="instansi" style="display:none"/>
+								<option disabled="disabled" selected="selected" >Pilih Instansi</option>
+							</select>
+			 				<select class="form-control" name="instansiId" id="instansiAsli"/>
+			 					<option disabled="disabled" selected="selected" >Pilih Instansi</option>
+								<option th:each="instansi : ${allInstansi}"
+								th:value="${instansi.id}"
+								th:text="${instansi.nama}+' - '+${instansi.provinsi.nama}"></option>
+			 				</select>
+				 		</td>
+					</tr>
+					<tr>
+						<td th:text="'Jabatan'"></td>
+						<td>
+			 				<select class="form-control" name="jabatanId"/>
+			 					<option disabled="disabled" selected="selected" >Pilih Jabatan</option>
+								<option th:each="jabatan : ${allJabatan}"
+								th:value="${jabatan.id}"
+								th:text="${jabatan.nama}"></option>
+			 				</select>
+				 		</td>
+					</tr>
+				</tbody>		
+			</table>
+			<button type="submit" class="btn-primary btn">Cari</button>
+		</form>
+		<hr>
+		<div class="table-responsive table">
         	<table class="table table-hover" id="myTable">
         		<thead>
+        			<th>No</th>
         			<th>NIP</th>
         			<th>Nama</th>
         			<th>Tempat Lahir</th>
         			<th>Tanggal Lahir</th>
         			<th>Tahun Masuk</th>
+        			<th>Jabatan</th>
+        			<!-- for debug only -->
+        			<th>Instansi</th>
         		</thead>
         		<tbody>
-     			<tr  th:each  = "pegawai : ${allPegawai}" >
-                    <td th:text="${pegawai.getNip()}"></td>
-                    <td th:text="${pegawai.getNama()}"></td>
-                    <td th:text="${pegawai.getTempatLahir()}"></td>
-                    <td th:text="${pegawai.getTanggalLahir()}"></td>
-                    <td th:text="${pegawai.getTahunMasuk()}"></td>
-     			</tr>
+     			<tr th:each="pegawai,iterationStatus : ${allData}">
+     				<td th:text="${iterationStatus.count}"></td>
+					<td th:text="${pegawai.nip}"></td>
+					<td th:text="${pegawai.nama}"></td>
+					<td th:text="${pegawai.tempatLahir}"></td>
+					<td th:text="${pegawai.tanggalLahir}"></td>
+					<td th:text="${pegawai.tahunMasuk}"></td>
+					<td>
+					<ul th:each="jabatan : ${pegawai.getJabatanList()}">
+						<li th:text="${jabatan.nama}"/>
+					</ul>
+					</td>
+					<td th:text="${pegawai.getInstansi().getNama()}+' - '+${pegawai.getInstansi().getProvinsi().getNama()}"></td>
+				</tr>
      		</tbody>
         	</table>
         </div>
     </div>
-    <script type="text/javascript">
-    	$(document).ready(function(e){
-    		$(myTable).DataTable()
-    	});
-    	
-    	$(document).ready(function(e){
-    		var provinsi = $('#provinsi option:selected').val();
-    		var instansi = $('#instansi option:selected').val();
-    		var jabatan = $('#jabatan option:selected').val();	
-    		
-    		$("#provinsi").change(function(){
-    			provinsi = $('#provinsi option:selected').val();
-    			console.log(provinsi);
-    		});
-    		
-			$("#instansi").change(function(){
-				instansi = $('#instansi option:selected').val();
-				console.log(instansi);
-			});
-			$("#jabatan").change(function(){
-				jabatan = $('#jabatan option:selected').val();
-				console.log(jabatan);
-			});
-			
-			$("#submit").on("click", function(e){
-			    e.preventDefault();
-			    var url = "localhost:8080/pegawai/cari?provinsiId="+provinsi+"&instansiId="+instansi+"&jabatanId="+jabatan;
-				//window.location.replace(url);
-				console.log(url);
-			   $('#form-submit').attr('action', url).submit();
-			});
-    	});
-    </script>
+         <script type="text/javascript">
+	$(document).ready(function(){
+		$('#myTable').DataTable();
+		console.log("hey")
+		$('#provinsi').change(function() {
+			valueProv = $(this).val();
+			console.log(valueProv)
+			$.ajax({
+				type: "GET",
+				url: "http://localhost:8080/pegawai/tambah/instansi?provinsi=",
+				data: {
+					'provinsiId' : valueProv
+				},
+				dataType: 'json',
+				success: function(data) {
+					console.log(data);
+					getIns = '';
+					var size = data.length;
+				
+					for (var i = 0; i<size; i++) {
+						getIns+='<option value="'+data[i].id+'">'+data[i].nama+'</option>';
+						console.log(data[i]);
+						console.log(data[i].nama)
+					}
+					console.log(getIns);
+					$('#instansi').show();
+					$('#instansi').append(getIns);
+					$('#instansiAsli').remove();
+				},
+				error: function(rs,e) {
+					alert(rs.responseText)
+				}
+			})
+		
+		
+		})
+	});
+</script>
 </div>
 </body>
-
 </html>

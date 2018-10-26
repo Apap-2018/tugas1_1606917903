@@ -49,7 +49,7 @@ public class JabatanServiceImpl implements JabatanService{
 	}
 
 	@Override
-	public List<JabatanModel> listJabatan() {
+	public List<JabatanModel> getlistJabatan() {
 		return jabatanDb.findAll();
 	}
 }

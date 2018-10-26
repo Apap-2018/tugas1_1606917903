@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{components/basepage :: basepage}">
 <head>
-    <title id="page-title""></title>
+    <object th:include="components/BasePage :: title" th:remove="tag"></object>
 </head>
 <body>
 <div id="Content" class="container-full-bg">
@@ -11,7 +11,7 @@
   				<div class="card my-5">
             	<table class="table">
                 <tbody>
-                	<tr><h1>Pegawai Termuda</h1></tr>
+                	<tr><h1 style="padding-left: 10px;">Pegawai Termuda</h1></tr>
                     <tr>
                         <th scope="row">NIP</th>
                         <td th:text="${termuda.getNip()}"></td>
@@ -44,7 +44,7 @@
                	<div class="card my-5">
             	<table class="table">
                 <tbody>
-                	<tr><h1>Pegawai Tertua</h1></tr>
+                	<tr><h1 style="padding-left: 10px;">Pegawai Tertua</h1></tr>
                     <tr>
                         <th scope="row">NIP</th>
                         <td th:text="${tertua.getNip()}"></td>

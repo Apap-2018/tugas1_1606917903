@@ -34,12 +34,12 @@ public class ProvinsiServiceImpl implements ProvinsiService{
 	}
 
 	@Override
-	public List<ProvinsiModel> listProvinsi() {
+	public List<ProvinsiModel> getlistProvinsi() {
 		return ProvinsiDb.findAll();
 	}
 
 	@Override
-	public ProvinsiModel getProvinsiDetailById(long id) {
+	public ProvinsiModel findProvinsiById(long id) {
 		return ProvinsiDb.findById(id);
 	}
 }
