@@ -19,6 +19,8 @@ public interface PegawaiService {
 	void deletePegawai(PegawaiModel Pegawai);
 	void updatePegawai(PegawaiModel Pegawai);
 	List<PegawaiModel> getListPegawai();
+	double countGaji(PegawaiModel pegawai);
+	String generateNip(PegawaiModel pegawai);
 	PegawaiModel getPegawaiByNIP(String nip);
 	PegawaiModel getPegawaiById(long id);
 	PegawaiModel getPegawaiTuaInstansi(InstansiModel instansi);

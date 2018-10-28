@@ -60,7 +60,7 @@ public class PegawaiController {
 		PegawaiModel archive = pegawaiService.getPegawaiByNIP(nip);
 		if(archive != null) {
 			model.addAttribute("pegawai", archive);
-			model.addAttribute("gaji", archive.getGaji());
+			model.addAttribute("gaji", pegawaiService.countGaji(archive));
 			model.addAttribute("title", "Detail Pegawai - " + archive.getNip());
 			return "view-pegawai";
 		}
@@ -71,12 +71,18 @@ public class PegawaiController {
 		}
 	}
 	
+	/**
+	 * Method Tambah Pegawai
+	 * @param pegawai
+	 * @param model
+	 * @param bindingResult
+	 * @return
+	 */
 	@RequestMapping(value="/pegawai/tambah",method = RequestMethod.POST, params= {"addRow"})
 	private String addRow (@ModelAttribute PegawaiModel pegawai, Model model, BindingResult bindingResult) {
 		if (pegawai.getJabatanList() == null) {
 			pegawai.setJabatanList(new ArrayList());
 		}
-		System.out.println(pegawai.getJabatanList().size());
 		pegawai.getJabatanList().add(new JabatanModel());
 		
 		List<JabatanModel> jab = jabatanService.getlistJabatan();
@@ -114,14 +120,7 @@ public class PegawaiController {
 	
 	@RequestMapping(value = "/pegawai/tambah", method = RequestMethod.POST, params= {"submit"})
 	private String tambahPegawaiSubmit(@ModelAttribute PegawaiModel pegawai, Model model) {
-		System.out.println(pegawai.getNama());
-		System.out.println(pegawai.getTahunMasuk());
-		System.out.println(pegawai.getTempatLahir());
-		System.out.println(pegawai.getTanggalLahir());
-		System.out.println(pegawai.getInstansi().getNama());
-		System.out.println("total jabatanku->"+pegawai.getJabatanList().size());
-		String nipPegawai = generateNip(pegawai);
-		System.out.println(nipPegawai);
+		String nipPegawai = pegawaiService.generateNip(pegawai);
 		pegawai.setNip(nipPegawai);
 		pegawaiService.addPegawai(pegawai);
 		String msg = "Pegawai dengan NIP "+nipPegawai+" berhasil ditambahkan";
@@ -130,37 +129,14 @@ public class PegawaiController {
 		return "success-page";
 	}
 	
-	private String generateNip(PegawaiModel pegawai) {
-		DateFormat df = new SimpleDateFormat("ddMMYY");
-		Date tglLahir = pegawai.getTanggalLahir();
-		System.out.println("hari->"+tglLahir.getDay());
-		String formatted = df.format(tglLahir);
-		System.out.println("date->"+formatted);
-		
-		Long kodeInstansi = pegawai.getInstansi().getId();
-		System.out.println("kode instansi->"+kodeInstansi);
-		
-		int idAkhir = 0;
-		for (PegawaiModel peg : pegawaiService.getListPegawai()) {
-			if (peg.getTanggalLahir().equals(pegawai.getTanggalLahir()) && peg.getTahunMasuk().equals(pegawai.getTahunMasuk())) {
-				idAkhir+=1;
-			}
-		}
-		idAkhir+=1;
-		
-		String kodeMasuk = "";
-		if (idAkhir<10) {
-			kodeMasuk = "0"+idAkhir;
-		}
-		else {
-			kodeMasuk = Integer.toString(idAkhir);
-		}
-		
-		System.out.println(kodeInstansi+formatted+pegawai.getTahunMasuk()+kodeMasuk);
-		return kodeInstansi+formatted+pegawai.getTahunMasuk()+kodeMasuk;
-		
-	}
 	
+	/**
+	 * Method ubah pegawai
+	 * @param pegawai
+	 * @param model
+	 * @param bindingResult
+	 * @return
+	 */
 	@RequestMapping(value="/pegawai/ubah",method = RequestMethod.POST, params= {"addRow"})
 	private String addRow2 (@ModelAttribute PegawaiModel pegawai, Model model, BindingResult bindingResult) {
 		if (pegawai.getJabatanList() == null) {
@@ -200,14 +176,7 @@ public class PegawaiController {
 	
 	@RequestMapping(value = "/pegawai/ubah", method = RequestMethod.POST, params= {"submit"})
 	private String ubahPegawaiSubmit(@ModelAttribute PegawaiModel pegawai, Model model) {
-		System.out.println(pegawai.getNama());
-		System.out.println(pegawai.getTahunMasuk());
-		System.out.println(pegawai.getTempatLahir());
-		System.out.println(pegawai.getTanggalLahir());
-		System.out.println(pegawai.getInstansi().getNama());
-		System.out.println("total jabatanku->"+pegawai.getJabatanList().size());
-		String nipPegawai = generateNip(pegawai);
-		System.out.println(nipPegawai);
+		String nipPegawai = pegawaiService.generateNip(pegawai);
 		pegawai.setNip(nipPegawai);
 		pegawaiService.updatePegawai(pegawai);
 		String msg = "Pegawai dengan NIP "+nipPegawai+" berhasil diubah";
@@ -217,6 +186,12 @@ public class PegawaiController {
 	}
 	
 	
+	/**
+	 * Method mencari pegawai termuda dan tertua dalam satu instansi
+	 * @param id
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/pegawai/termuda-tertua", method = RequestMethod.GET)
 	private String viewOldYoung(@RequestParam("id") long id, Model model) {
 		InstansiModel instansi = instansiService.findInstansiById(id);
@@ -235,6 +210,15 @@ public class PegawaiController {
 		return "tertua-termuda";
 	}
 	
+	
+	/**
+	 * Method untuk mencari pegawai dengan filter
+	 * @param provinsiId
+	 * @param instansiId
+	 * @param jabatanId
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="/pegawai/cari", method = RequestMethod.GET)
 	private String cariPegawai (@RequestParam(value = "provinsiId", required=false) Optional<Long> provinsiId, 
 								@RequestParam(value = "instansiId", required=false) Optional<Long> instansiId,

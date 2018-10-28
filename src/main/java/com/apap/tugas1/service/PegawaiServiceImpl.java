@@ -1,6 +1,8 @@
 package com.apap.tugas1.service;
 
 import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,19 +35,6 @@ public class PegawaiServiceImpl implements PegawaiService{
 	
 	@Override
 	public void addPegawai(PegawaiModel pegawai) {
-		/**PegawaiModel pegawaiBaru = new PegawaiModel();
-		InstansiModel instansi = instansiService.findInstansiById(pegawai.getInstansi().getId());
-		pegawaiBaru.setInstansi(instansi);
-		pegawaiBaru.setNama(pegawai.getNama());
-		pegawaiBaru.setNip("1234567");
-		pegawaiBaru.setTahun_masuk(pegawai.getTahun_masuk());
-		pegawaiBaru.setTanggal_lahir(pegawai.getTanggal_lahir());
-		pegawaiBaru.setTempat_lahir(pegawai.getTempat_lahir());
-		List<JabatanModel> lst = new ArrayList<>();
-		pegawaiBaru.setJabatanList(lst);
-		for(JabatanModel jabatan : pegawai.getJabatanList()) {
-			lst.add(jabatanService.findJabatanById(jabatan.getId()));
-		}**/
 		PegawaiDb.save(pegawai);
 	}
 	
@@ -126,6 +115,7 @@ public class PegawaiServiceImpl implements PegawaiService{
 		return result;
 	}
 	
+	@Override
 	public List<PegawaiModel> filterByInstansi (InstansiModel instansi, List<PegawaiModel> listPegawai){
 		List<PegawaiModel> result = new ArrayList<PegawaiModel>();
 		for (PegawaiModel pegawai : listPegawai) {
@@ -133,6 +123,55 @@ public class PegawaiServiceImpl implements PegawaiService{
 				result.add(pegawai);
 		}
 		return result;
+	}
+	
+	@Override
+	public double countGaji(PegawaiModel pegawai) {
+		double pokok = -1;
+		List<JabatanModel> lst = pegawai.getJabatanList();
+		for(int i=0; i < lst.size(); i++) {
+			if(lst.get(i).getGaji_pokok() > pokok) {
+				pokok = lst.get(i).getGaji_pokok();
+			}
+		}
+		return pokok + (pegawai.getInstansi().getProvinsi().getPresentase_tunjangan()/100 * pokok);
+	}
+
+	@Override
+	public String generateNip(PegawaiModel pegawai) {
+		// TODO Auto-generated method stub
+		DateFormat df = new SimpleDateFormat("ddMMYY");
+		Date tglLahir = pegawai.getTanggalLahir();
+		String formatted = df.format(tglLahir);
+		Long kodeInstansi = pegawai.getInstansi().getId();
+		
+		int idAkhir = 1;
+		List<PegawaiModel> sameDate = new ArrayList<>();
+		for (PegawaiModel peg : this.getListPegawai()) {
+			if (peg.getTanggalLahir().equals(pegawai.getTanggalLahir()) && peg.getTahunMasuk().equals(pegawai.getTahunMasuk())) {
+				sameDate.add(peg);
+			}
+		}
+		if(!sameDate.isEmpty()) {
+			String lastNip = sameDate.get(sameDate.size()-1).getNip();
+			String lastNumber = lastNip.substring(14,lastNip.length());
+			if(lastNumber.startsWith("0")) {
+				lastNumber = lastNumber.substring(1, lastNumber.length());
+			}
+			int lastId = Integer.parseInt(lastNumber);
+			idAkhir = lastId+1;
+		}
+		
+		String kodeMasuk = "";
+		if (idAkhir<10) {
+			kodeMasuk = "0"+idAkhir;
+		}
+		else {
+			kodeMasuk = Integer.toString(idAkhir);
+		}
+		
+		System.out.println(kodeInstansi+formatted+pegawai.getTahunMasuk()+kodeMasuk);
+		return kodeInstansi+formatted+pegawai.getTahunMasuk()+kodeMasuk;
 	}
 
 }

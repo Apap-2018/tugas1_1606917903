@@ -144,15 +144,4 @@ public class PegawaiModel implements Serializable{
 	public void setJabatanList(List<JabatanModel> jabatanList) {
 		this.jabatanList = jabatanList;
 	}
-	
-	public double getGaji() {
-		double pokok = -1;
-		List<JabatanModel> lst = this.getJabatanList();
-		for(int i=0; i < lst.size(); i++) {
-			if(lst.get(i).getGaji_pokok() > pokok) {
-				pokok = lst.get(i).getGaji_pokok();
-			}
-		}
-		return pokok + (this.getInstansi().getProvinsi().getPresentase_tunjangan()/100 * pokok);
-	}
 }
